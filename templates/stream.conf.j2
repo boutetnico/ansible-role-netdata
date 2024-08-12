@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+{% if netdata_node_role == 'master' %}
+[{{ netdata_master_api_key }}]
+    # enable/disable this API key
+    enabled = yes
+{% endif %}
+
+{% if netdata_node_role == 'slave' %}
+[stream]
+    # stream metrics to another netdata
+    enabled = yes
+
+    # the IP and PORT of the master
+    destination = {{ netdata_master_endpoint }}
+
+    # the API key to use
+    api key = {{ netdata_master_api_key }}
+{% endif %}

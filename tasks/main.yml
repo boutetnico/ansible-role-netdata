@@ -1,0 +1,145 @@
+---
+- name: Install dependencies
+  ansible.builtin.apt:
+    name: "{{ netdata_dependencies }}"
+    state: present
+    update_cache: true
+
+- name: Configure Netdata APT repository
+  ansible.builtin.deb822_repository:
+    name: netdata
+    signed_by: "{{ netdata_apt_signed_by }}"
+    suites: "{{ ansible_distribution_release }}/"
+    uris: "{{ netdata_apt_uris }}"
+
+- name: Ensure Netdata is installed
+  ansible.builtin.apt:
+    name: "{{ netdata_package_name }}"
+    state: "{{ netdata_package_state }}"
+    update_cache: true
+  notify: Restart Netdata
+
+- name: Ensure netdata user belongs to its additional groups
+  ansible.builtin.user:
+    append: true
+    groups: "{{ netdata_user_extra_groups }}"
+    name: netdata
+    state: present
+  when: netdata_user_extra_groups | length > 0
+
+- name: Ensure Netdata cache directory exists
+  ansible.builtin.file:
+    group: netdata
+    mode: "0755"
+    owner: netdata
+    path: "{{ netdata_directory_cache }}"
+    state: directory
+
+- name: Configure Netdata
+  ansible.builtin.template:
+    dest: /etc/netdata/netdata.conf
+    group: root
+    mode: "0644"
+    owner: root
+    src: netdata.conf.j2
+  notify: Restart Netdata
+
+- name: Configure Netdata streaming
+  ansible.builtin.template:
+    dest: /etc/netdata/stream.conf
+    group: root
+    mode: "0644"
+    owner: root
+    src: stream.conf.j2
+  when: netdata_streaming_enabled
+  notify: Restart Netdata
+
+- name: Setup Netdata go.d configuration
+  ansible.builtin.template:
+    dest: /etc/netdata/go.d/{{ item.name }}.conf
+    group: root
+    mode: "0644"
+    owner: root
+    src: go.d/module.conf.j2
+  loop: "{{ netdata_go_d_conf }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: Restart Netdata
+
+- name: Setup Netdata python.d configuration
+  ansible.builtin.template:
+    dest: /etc/netdata/python.d/{{ item.name }}.conf
+    group: root
+    mode: "0644"
+    owner: root
+    src: python.d/module.conf.j2
+  loop: "{{ netdata_python_d_conf }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: Restart Netdata
+
+- name: Setup Netdata health configuration
+  ansible.builtin.template:
+    dest: /etc/netdata/health.d/{{ item.name }}.conf
+    group: root
+    mode: "0644"
+    owner: root
+    src: health.d/health.conf.j2
+  loop: "{{ netdata_health_d_conf }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: Reload Netdata health
+
+- name: Configure Netdata health alarm notifications
+  ansible.builtin.template:
+    dest: /etc/netdata/health_alarm_notify.conf
+    group: root
+    mode: "0644"
+    owner: root
+    src: health_alarm_notify.conf.j2
+  notify: Restart Netdata
+
+- name: Ensure several pip packages are present
+  ansible.builtin.pip:
+    name: "{{ netdata_pip_packages }}"
+    state: present
+    extra_args: --break-system-packages
+  when:
+    - netdata_pip_packages | length > 0
+    - ansible_distribution_release in ['bookworm', 'noble']
+
+- name: Ensure several pip packages are present
+  ansible.builtin.pip:
+    name: "{{ netdata_pip_packages }}"
+    state: present
+  when:
+    - netdata_pip_packages | length > 0
+    - not ansible_distribution_release in ['bookworm', 'noble']
+
+- name: Copy Netdata external plugins to their destination
+  ansible.builtin.copy:
+    dest: "{{ netdata_plugins_path }}/{{ item }}"
+    group: netdata
+    mode: "0644"
+    owner: root
+    src: "{{ netdata_external_plugins_path }}/{{ item }}"
+  when: netdata_external_plugins_path != ''
+  loop: "{{ netdata_external_plugins_install }}"
+  notify: Restart Netdata
+
+- name: Setup Netdata apps groups
+  ansible.builtin.template:
+    dest: /etc/netdata/apps_groups.conf
+    group: root
+    mode: "0644"
+    owner: root
+    src: apps_groups.conf.j2
+  notify: Restart Netdata
+
+- name: Opt-out from Netdata telemetry
+  ansible.builtin.copy:
+    content: ""
+    dest: /etc/netdata/.opt-out-from-anonymous-statistics
+    group: root
+    mode: "0644"
+    owner: root

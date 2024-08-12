@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+{% for key in netdata_alarm_notify %}
+{{ key }}="{{ netdata_alarm_notify[key] }}"
+{% endfor %}
+
+{% if netdata_alarm_notify_scripts %}
+{{ netdata_alarm_notify_scripts }}
+{% endif %}
+

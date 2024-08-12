@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+
+{% for section_name, section in netdata_conf.items() %}
+[{{ section_name }}]
+{%   for key, value in section.items() %}
+    {{ key }} = {{ value }}
+{%   endfor %}
+{% endfor %}

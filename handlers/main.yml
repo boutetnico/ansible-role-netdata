@@ -1,0 +1,9 @@
+---
+- name: Restart Netdata
+  ansible.builtin.service:
+    name: netdata
+    state: restarted
+
+- name: Reload Netdata health
+  ansible.builtin.command: netdatacli reload-health
+  changed_when: false

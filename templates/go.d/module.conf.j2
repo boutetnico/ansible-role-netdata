@@ -1,0 +1,3 @@
+# {{ ansible_managed }}
+
+{{ item.config | to_json(vault_to_text=True) | from_json | to_nice_yaml(indent=2) }}  {# Workaround to ensure vault variables are decrypted #}

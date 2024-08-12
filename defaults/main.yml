@@ -1,0 +1,34 @@
+---
+netdata_dependencies:
+  - apt-transport-https
+  - gnupg
+  - python3-debian
+
+netdata_package_state: present
+
+netdata_pip_packages: []
+
+netdata_user_extra_groups: []
+
+netdata_directory_cache: /var/cache/netdata
+
+netdata_streaming_enabled: false
+netdata_node_role: master  # master|slave
+netdata_master_api_key: change-me-uuid
+netdata_master_endpoint: ''
+
+netdata_go_d_conf: []
+netdata_python_d_conf: []
+netdata_health_d_conf: []
+
+netdata_conf: {}
+
+netdata_apps_groups: {}
+
+netdata_alarm_notify: {}
+netdata_alarm_notify_scripts: ''
+
+netdata_plugins_path: /usr/libexec/netdata
+
+netdata_external_plugins_path: ''
+netdata_external_plugins_install: []

@@ -1,0 +1,83 @@
+---
+- name: Converge
+  hosts: all
+
+  roles:
+    - role: boutetnico.netdata
+
+      netdata_go_d_conf:
+        - name: mysql
+          config:
+            update_every: 10
+            autodetection_retry: 60
+            jobs:
+              - name: local
+                dsn: "netdata:netdata@tcp(127.0.0.1:3306)/"
+        - name: nginx
+          config:
+            update_every: 10
+            autodetection_retry: 60
+            jobs:
+              - name: local
+                url: "http://127.0.0.1/nginx_status"
+
+      netdata_python_d_conf:
+        - name: memcached
+          config:
+            update_every: 10
+            autodetection_retry: 60
+
+      netdata_health_d_conf:
+        - name: ram
+          config:
+            - template: "ram_in_use"
+              "on": "system.ram"
+              class: "Utilization"
+              type: "System"
+              component: "Memory"
+              host labels: "_hostname = !web01 *"
+              calc: "$used * 100 / ($used + $cached + $free + $buffers)"
+              units: "%"
+              every: "10s"
+              warn: "$this > (($status >= $WARNING)  ? (80) : (90))"
+              delay: "down 15m multiplier 1.5 max 1h"
+              summary: "System memory utilization"
+              info: "System memory utilization"
+              to: "sysadmin"
+
+      netdata_conf:
+        global:
+          update every: 10
+        db:
+          mode: "{{ 'dbengine' if netdata_node_role == 'master' else 'none' }}"
+        directories:
+          cache: "{{ netdata_directory_cache }}"
+        logs:
+          errors flood protection period: 0
+        health:
+          enabled: "{{ 'yes' if netdata_node_role == 'master' else 'no' }}"
+        ml:
+          enabled: "no"
+        web:
+          enable gzip compression: "no"
+        plugins:
+          timex: "yes"
+          idlejitter: "no"
+          netdata monitoring: "no"
+          profile: "no"
+          tc: "no"
+          diskspace: "yes"
+          proc: "yes"
+          cgroups: "no"
+          enable running new plugins: "no"
+          slabinfo: "no"
+          apps: "yes"
+          systemd-journal: "no"
+          debugfs: "no"
+          ioping: "no"
+          python.d: "yes"
+          nfacct: "no"
+          perf: "yes"
+          charts.d: "no"
+          go.d: "yes"
+          statsd: "no"

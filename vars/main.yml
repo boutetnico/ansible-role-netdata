@@ -1,0 +1,6 @@
+---
+netdata_apt_signed_by: https://repo.netdata.cloud/netdatabot.gpg.key
+
+netdata_apt_uris: "https://repo.netdata.cloud/repos/stable/{{ ansible_distribution | lower }}"
+
+netdata_package_name: netdata

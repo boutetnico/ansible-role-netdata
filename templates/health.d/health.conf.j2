@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+
+{% for config in item.config %}
+{%   for key, value in config.items() %}
+{{ key }}: {{ value }}
+{%   endfor %}
+
+{% endfor %}
