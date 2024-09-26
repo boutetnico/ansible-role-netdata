@@ -21,12 +21,6 @@
               - name: local
                 url: "http://127.0.0.1/nginx_status"
 
-      netdata_python_d_conf:
-        - name: memcached
-          config:
-            update_every: 10
-            autodetection_retry: 60
-
       netdata_health_d_conf:
         - name: ram
           config:
