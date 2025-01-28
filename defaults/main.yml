@@ -5,6 +5,18 @@ netdata_dependencies:
   - python3-debian
 
 netdata_version: 2.1.1
+netdata_packages:
+  - "netdata={{ netdata_version }}"
+  - "netdata-dashboard={{ netdata_version }}"
+  - "netdata-plugin-apps={{ netdata_version }}"
+  - "netdata-plugin-chartsd={{ netdata_version }}"
+  - "netdata-plugin-debugfs={{ netdata_version }}"
+  - "netdata-plugin-ebpf={{ netdata_version }}"
+  - "netdata-plugin-go={{ netdata_version }}"
+  - "netdata-plugin-nfacct={{ netdata_version }}"
+  - "netdata-plugin-perf={{ netdata_version }}"
+  - "netdata-plugin-pythond={{ netdata_version }}"
+  - "netdata-plugin-slabinfo={{ netdata_version }}"
 netdata_package_state: present
 
 netdata_pip_packages: []
