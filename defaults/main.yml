@@ -4,6 +4,7 @@ netdata_dependencies:
   - gnupg
   - python3-debian
 
+netdata_version: 2.1.1
 netdata_package_state: present
 
 netdata_pip_packages: []

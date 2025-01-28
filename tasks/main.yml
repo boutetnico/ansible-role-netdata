@@ -14,7 +14,7 @@
 
 - name: Ensure Netdata is installed
   ansible.builtin.apt:
-    name: "{{ netdata_package_name }}"
+    name: "{{ netdata_package_name }}={{ netdata_version }}"
     state: "{{ netdata_package_state }}"
     update_cache: true
   notify: Restart Netdata
