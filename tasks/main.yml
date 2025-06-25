@@ -1,7 +1,7 @@
 ---
 - name: Install dependencies
   ansible.builtin.apt:
-    name: "{{ netdata_dependencies }}"
+    name: "{{ netdata_dependencies + netdata_apt_packages }}"
     state: present
     update_cache: true
 
