@@ -2,12 +2,7 @@
 name: Test ansible role
 
 on:
-  pull_request:
-  push:
-    branches:
-      - master
-  schedule:
-    - cron: "22 2 * * 2"
+  workflow_dispatch:
 
 jobs:
   test:
