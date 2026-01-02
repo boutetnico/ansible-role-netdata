@@ -9,7 +9,7 @@
   ansible.builtin.deb822_repository:
     name: netdata
     signed_by: "{{ netdata_apt_signed_by }}"
-    suites: "{{ ansible_distribution_release }}/"
+    suites: "{{ ansible_facts['distribution_release'] }}/"
     uris: "{{ netdata_apt_uris }}"
 
 - name: Ensure Netdata is installed
