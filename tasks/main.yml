@@ -53,6 +53,7 @@
     src: stream.conf.j2
   when: netdata_streaming_enabled
   notify: Restart Netdata
+  no_log: true
 
 - name: Setup Netdata go.d configuration
   ansible.builtin.template:
@@ -65,6 +66,7 @@
   loop_control:
     label: "{{ item.name }}"
   notify: Restart Netdata
+  no_log: true
 
 - name: Setup Netdata python.d configuration
   ansible.builtin.template:
@@ -77,6 +79,7 @@
   loop_control:
     label: "{{ item.name }}"
   notify: Restart Netdata
+  no_log: true
 
 - name: Setup Netdata health configuration
   ansible.builtin.template:
@@ -98,6 +101,7 @@
     owner: root
     src: health_alarm_notify.conf.j2
   notify: Restart Netdata
+  no_log: true
 
 - name: Ensure several pip packages are present
   ansible.builtin.pip:
