@@ -41,12 +41,12 @@
 
       netdata_conf:
         db:
-          update every: 10
+          update every: 10s
           db: "{{ 'dbengine' if netdata_node_role == 'master' else 'none' }}"
         directories:
           cache: "{{ netdata_directory_cache }}"
         logs:
-          logs flood protection period: 0
+          logs flood protection period: "off"
         health:
           enabled: "{{ 'yes' if netdata_node_role == 'master' else 'no' }}"
         ml:

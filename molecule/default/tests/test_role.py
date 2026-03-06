@@ -38,3 +38,16 @@ def test_service_is_running_and_enabled(host, name):
     service = host.service(name)
     assert service.is_enabled
     assert service.is_running
+
+
+@pytest.mark.parametrize(
+    "marker",
+    [
+        ("migrated from:"),
+        ("reformatted from:"),
+        ("found in the config file, but is not used"),
+    ],
+)
+def test_netdata_conf_has_no_deprecated_markers(host, marker):
+    conf = host.file("/etc/netdata/netdata.conf").content_string
+    assert marker not in conf, f"netdata.conf contains '{marker}'"
