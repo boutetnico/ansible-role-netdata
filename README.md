@@ -95,9 +95,8 @@ Example Playbook
                   to: "sysadmin"
 
           netdata_conf:
-            global:
-              update every: 10
             db:
+              update every: 10
               db: "{{ 'dbengine' if netdata_node_role == 'master' else 'none' }}"
             directories:
               cache: "{{ netdata_directory_cache }}"
