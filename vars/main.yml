@@ -3,23 +3,25 @@ netdata_apt_signed_by: https://repo.netdata.cloud/netdatabot.gpg.key
 
 netdata_apt_uris: "https://repo.netdata.cloud/repos/stable/{{ ansible_facts['distribution'] | lower }}"
 
+netdata_version_suffix: "{{ ('=' ~ netdata_version) if netdata_version else '' }}"
+
 netdata_common_packages:
-  - "netdata={{ netdata_version }}"
-  - "netdata-dashboard={{ netdata_version }}"
-  - "netdata-plugin-apps={{ netdata_version }}"
-  - "netdata-plugin-chartsd={{ netdata_version }}"
-  - "netdata-plugin-debugfs={{ netdata_version }}"
-  - "netdata-plugin-go={{ netdata_version }}"
-  - "netdata-plugin-nfacct={{ netdata_version }}"
-  - "netdata-plugin-perf={{ netdata_version }}"
-  - "netdata-plugin-pythond={{ netdata_version }}"
-  - "netdata-plugin-slabinfo={{ netdata_version }}"
+  - "netdata{{ netdata_version_suffix }}"
+  - "netdata-dashboard{{ netdata_version_suffix }}"
+  - "netdata-plugin-apps{{ netdata_version_suffix }}"
+  - "netdata-plugin-chartsd{{ netdata_version_suffix }}"
+  - "netdata-plugin-debugfs{{ netdata_version_suffix }}"
+  - "netdata-plugin-go{{ netdata_version_suffix }}"
+  - "netdata-plugin-nfacct{{ netdata_version_suffix }}"
+  - "netdata-plugin-perf{{ netdata_version_suffix }}"
+  - "netdata-plugin-pythond{{ netdata_version_suffix }}"
+  - "netdata-plugin-slabinfo{{ netdata_version_suffix }}"
 
 netdata_packages_map:
   "32-bit": "{{ netdata_common_packages }}"
   "64-bit": "{{ netdata_common_packages }}"
   aarch64: "{{ netdata_common_packages }}"
-  amd64: "{{ netdata_common_packages + ['netdata-plugin-ebpf=' ~ netdata_version] }}"
+  amd64: "{{ netdata_common_packages + ['netdata-plugin-ebpf' ~ netdata_version_suffix] }}"
   armv6l: "{{ netdata_common_packages }}"
   armv7l: "{{ netdata_common_packages }}"
-  x86_64: "{{ netdata_common_packages + ['netdata-plugin-ebpf=' ~ netdata_version] }}"
+  x86_64: "{{ netdata_common_packages + ['netdata-plugin-ebpf' ~ netdata_version_suffix] }}"

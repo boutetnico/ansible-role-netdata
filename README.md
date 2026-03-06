@@ -25,8 +25,8 @@ Role Variables
 | Variable                         | Required | Default                | Choices   | Comments                                          |
 |----------------------------------|----------|------------------------|-----------|---------------------------------------------------|
 | netdata_dependencies             | true     |                        | list      | See `defaults/main.yml`.                          |
-| netdata_version                  | true     | `2.1.1`                | string    | Locked to 2.1.1 before the 5 active nodes limit.  |
-| netdata_packages                 | true     |                        | list      | See `defaults/main.yml`.                          |
+| netdata_version                  | true     | `""`                   | string    | Pin to a version or leave empty for latest.       |
+| netdata_packages                 | true     |                        | list      | See `vars/main.yml`.                              |
 | netdata_package_state            | true     | `present`              | string    |                                                   |
 | netdata_apt_packages             | true     | `[]`                   | list      | Extra apt packages to install.                    |
 | netdata_pip_packages             | true     | `[]`                   | list      | Extra pip packages to install.                    |
