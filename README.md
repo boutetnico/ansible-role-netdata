@@ -98,11 +98,11 @@ Example Playbook
             global:
               update every: 10
             db:
-              mode: "{{ 'dbengine' if netdata_node_role == 'master' else 'none' }}"
+              db: "{{ 'dbengine' if netdata_node_role == 'master' else 'none' }}"
             directories:
               cache: "{{ netdata_directory_cache }}"
             logs:
-              errors flood protection period: 0
+              logs flood protection period: 0
             health:
               enabled: "{{ 'yes' if netdata_node_role == 'master' else 'no' }}"
             ml:
@@ -112,7 +112,7 @@ Example Playbook
             plugins:
               timex: "yes"
               idlejitter: "no"
-              netdata monitoring: "no"
+              netdata pulse: "no"
               profile: "no"
               tc: "no"
               diskspace: "yes"
