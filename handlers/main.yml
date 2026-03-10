@@ -3,7 +3,9 @@
   ansible.builtin.service:
     name: netdata
     state: restarted
+  register: _netdata_restarted
 
 - name: Reload Netdata health
   ansible.builtin.command: netdatacli reload-health
   changed_when: false
+  when: not (_netdata_restarted is defined and _netdata_restarted.changed)
