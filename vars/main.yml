@@ -13,9 +13,12 @@ netdata_common_packages:
   - "netdata-plugin-debugfs{{ netdata_version_suffix }}"
   - "netdata-plugin-go{{ netdata_version_suffix }}"
   - "netdata-plugin-nfacct{{ netdata_version_suffix }}"
+  - "netdata-plugin-otel{{ netdata_version_suffix }}"
+  - "netdata-plugin-otel-signal-viewer{{ netdata_version_suffix }}"
   - "netdata-plugin-perf{{ netdata_version_suffix }}"
   - "netdata-plugin-pythond{{ netdata_version_suffix }}"
   - "netdata-plugin-slabinfo{{ netdata_version_suffix }}"
+  - "netdata-user{{ netdata_version_suffix }}"
 
 netdata_packages_map:
   "32-bit": "{{ netdata_common_packages }}"
