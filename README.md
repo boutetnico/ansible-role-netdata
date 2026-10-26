@@ -9,7 +9,7 @@ This role installs and configures [Netdata](https://learn.netdata.cloud/).
 Requirements
 ------------
 
-Ansible 2.15 or newer.
+Ansible 2.21 or newer.
 
 Supported Platforms
 -------------------

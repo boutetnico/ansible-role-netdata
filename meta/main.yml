@@ -5,7 +5,7 @@ galaxy_info:
   author: Nicolas Boutet
   description: Install and configure Netdata.
   license: MIT
-  min_ansible_version: "2.15"
+  min_ansible_version: "2.21"
   platforms:
     - name: Ubuntu
       versions:
